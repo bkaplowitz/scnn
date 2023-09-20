@@ -39,13 +39,11 @@ def hessian_diagonal(X: lab.Tensor, D: Optional[lab.Tensor] = None) -> lab.Tenso
     :returns: diagonal of the Hessian matrix as a vector.
     """
 
-    if D is not None:
-        # compute column norms of expanded matrix.
-        H_diag = lab.einsum("ij, ik->jk", D, X ** 2)
-    else:
-        H_diag = lab.sum(X ** 2, axis=0)
-
-    return H_diag
+    return (
+        lab.einsum("ij, ik->jk", D, X**2)
+        if D is not None
+        else lab.sum(X**2, axis=0)
+    )
 
 
 def column_norm(X: lab.Tensor, D: Optional[lab.Tensor] = None) -> MatVecOperator:

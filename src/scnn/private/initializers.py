@@ -97,56 +97,6 @@ def get_initializer(
             # TODO: Fixme!
             raise NotImplementedError("TODO! Fix least squares initialization.")
 
-            if not isinstance(model_to_init, ConvexMLP):
-                raise ValueError(
-                    "Initializing with the ridge-regression solution is only for ConvexMLPs and subclasses."
-                )
-
-            cur_backend = lab.backend
-            X_np, y_np = lab.all_to_np(train_data)
-            y_np = np.squeeze(y_np)
-            if len(y_np.shape) > 1:
-                raise ValueError(
-                    "Cannot use least-squares initialization with multi-target problems!"
-                )
-
-            np_train_data = (X_np, y_np)
-
-            np_D = lab.to_np(model_to_init.D)
-            np_U = lab.to_np(model_to_init.U)
-
-            # least squares only supports NumPy
-            lab.set_backend(lab.NUMPY)
-            solver_config = config.get("solver", DEFAULT_LSMR_SOLVER)
-
-            # scale lambda to account for scaling the objective by 1/n.
-            scaled_lam = lam * np_train_data[0].shape[0]
-            l2 = L2Regularizer(scaled_lam)
-            model_to_fit = ConvexMLP(
-                model_to_init.d,
-                np_D,
-                np_U,
-                model_to_init.kernel,
-                regularizer=l2,
-            )
-
-            # solver = get_method(logger, rng, model_to_fit, np_train_data, solver_config)
-            solver = None
-            exit_status, fit_model, metrics_log = solver(
-                logger,
-                model_to_fit,
-                lambda x: x,
-                np_train_data,
-                np_train_data,
-                ([], [], []),
-            )
-
-            # reset the linear algebra backend.
-            lab.set_backend(cur_backend)
-            fit_model_weights = lab.tensor(fit_model.weights, dtype=lab.get_dtype())
-
-            model_to_init.set_weights(fit_model_weights)
-
         else:
             raise ValueError(
                 f"Initializer {name} not recognized! Please register it in 'models/initializers.py'."

@@ -114,6 +114,5 @@ def to_list(v):
     """
     if isinstance(v, list):
         return v
-    else:
-        assert hasattr(v, "tolist")
-        return v.tolist()
+    assert hasattr(v, "tolist")
+    return v.tolist()

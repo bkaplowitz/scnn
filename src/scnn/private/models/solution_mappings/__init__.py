@@ -45,11 +45,8 @@ def get_nc_formulation(
     remove_sparse: bool = False,
 ) -> Union[torch.nn.Module, Model]:
 
-    grelu = True
-    if isinstance(convex_model, (AL_MLP)):
-        grelu = False
-
     if isinstance(convex_model, ConvexMLP):
+        grelu = not isinstance(convex_model, (AL_MLP))
         return construct_nc_manual(convex_model, grelu, remove_sparse)
     elif isinstance(convex_model, LinearRegression):
         return convex_model

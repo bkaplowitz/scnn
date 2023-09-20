@@ -266,10 +266,7 @@ class Model:
         if self.regularizer is not None and not ignore_regularizer:
             grad += self.regularizer.grad(w, model_grad, step_size=step_size)
 
-        if return_model_grad:
-            return grad, model_grad
-
-        return grad
+        return (grad, model_grad) if return_model_grad else grad
 
     def get_closures(
         self,

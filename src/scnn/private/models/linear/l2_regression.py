@@ -89,5 +89,4 @@ class LinearRegression(Model):
         """
 
         res = self._forward(X, w) - y
-        grad = lab.matmul(res.T, X) / self._scaling(y, scaling)
-        return grad
+        return lab.matmul(res.T, X) / self._scaling(y, scaling)

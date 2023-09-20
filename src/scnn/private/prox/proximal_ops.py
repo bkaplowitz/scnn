@@ -142,11 +142,9 @@ class GroupL1(Regularizer):
         # compute the squared norms of each group.
         norms = lab.sqrt(lab.sum(w**2, axis=-1, keepdims=True))
 
-        w_plus = lab.multiply(
+        return lab.multiply(
             lab.safe_divide(w, norms), lab.smax(norms - self.lam * beta, 0)
         )
-
-        return w_plus
 
 
 class FeatureGroupL1(Regularizer):
@@ -188,12 +186,10 @@ class FeatureGroupL1(Regularizer):
             )
         )
 
-        w_plus = lab.multiply(
+        return lab.multiply(
             lab.safe_divide(w, norms),
             lab.smax(norms - scaling * self.lam * beta, 0),
         )
-
-        return w_plus
 
 
 # ==============
@@ -212,10 +208,7 @@ class Orthant(ProximalOperator):
             The diagonal A_i is stored as the i'th column of A.
         """
         self.A = A
-        if len(A.shape) == 3:
-            self.sum_string = "ikj,imjk->imjk"
-        else:
-            self.sum_string = "kj,imjk->imjk"
+        self.sum_string = "ikj,imjk->imjk" if len(A.shape) == 3 else "kj,imjk->imjk"
 
     def __call__(self, w: lab.Tensor, beta: Optional[float] = None) -> lab.Tensor:
         """

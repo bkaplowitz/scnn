@@ -149,11 +149,7 @@ class DoubleLoopProcedure(IterativeOptimizationProcedure):
         total_itrs = 0
 
         # outer loop
-        for outer_itr in tqdm(
-            range(self.outer_max_iters),
-            desc="Outer " + self.name,
-            disable=(not verbose),
-        ):
+        for outer_itr in tqdm(range(self.outer_max_iters), desc=f"Outer {self.name}", disable=(not verbose)):
 
             # inner loop says to terminate optimization.
             if terminate:
@@ -182,11 +178,7 @@ class DoubleLoopProcedure(IterativeOptimizationProcedure):
             )
 
             # inner loop
-            for inner_itr in tqdm(
-                range(self.inner_max_iters),
-                desc="Inner " + self.name,
-                disable=(not verbose),
-            ):
+            for inner_itr in tqdm(range(self.inner_max_iters), desc=f"Inner {self.name}", disable=(not verbose)):
 
                 if (
                     self.max_total_iters is not None

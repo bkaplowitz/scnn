@@ -105,7 +105,4 @@ class FeatureGroupL1Regularizer(Regularizer):
         )
         smooth_term = scaling * self.lam * lab.safe_divide(w, weight_norms)
 
-        # match input shape
-        subgrad = smooth_term - non_smooth_term
-
-        return subgrad
+        return smooth_term - non_smooth_term

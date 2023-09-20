@@ -28,4 +28,4 @@ class LayerWrapper(torch.nn.Module):
         return self.regularizer
 
     def parameters(self):
-        return torch.cat([param for param in self.layer.parameters()])
+        return torch.cat(list(self.layer.parameters()))

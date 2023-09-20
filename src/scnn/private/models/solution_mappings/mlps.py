@@ -47,19 +47,13 @@ def grelu_solution_mapping(convex_model, remove_sparse: bool = False):
     first_layer = None
     second_layer = []
     for c in range(weights.shape[0]):
-        pre_zeros = [
-            lab.zeros_like(weight_norms[0]) for i in range(c)
-        ]  # positive neurons
+        pre_zeros = [lab.zeros_like(weight_norms[0]) for _ in range(c)]
         post_zeros = [
             lab.zeros_like(weight_norms[0])
-            for i in range(weights.shape[0] - c - 1)
+            for _ in range(weights.shape[0] - c - 1)
         ]
 
-        if first_layer is None:
-            pre_weights = []
-        else:
-            pre_weights = [first_layer]
-
+        pre_weights = [] if first_layer is None else [first_layer]
         first_layer = lab.concatenate(
             pre_weights
             + [
@@ -78,9 +72,7 @@ def grelu_solution_mapping(convex_model, remove_sparse: bool = False):
         ).T
         second_layer.append(w2)
     second_layer = lab.concatenate(second_layer, axis=0)
-    U = lab.concatenate(
-        [convex_model.U for c in range(weights.shape[0])], axis=1
-    )
+    U = lab.concatenate([convex_model.U for _ in range(weights.shape[0])], axis=1)
 
     if remove_sparse:
         sparse_indices = lab.sum(first_layer, axis=-1) != 0
@@ -104,19 +96,13 @@ def relu_solution_mapping(convex_model, remove_sparse: bool = False):
     first_layer = None
     second_layer = []
     for c in range(num_classes):
-        pre_zeros = [
-            lab.zeros_like(weight_norms[0, c]) for i in range(2 * c)
-        ]  # positive neurons
+        pre_zeros = [lab.zeros_like(weight_norms[0, c]) for _ in range(2 * c)]
         post_zeros = [
             lab.zeros_like(weight_norms[0, c])
-            for i in range(2 * (num_classes - c - 1))
+            for _ in range(2 * (num_classes - c - 1))
         ]
 
-        if first_layer is None:
-            pre_weights = []
-        else:
-            pre_weights = [first_layer]
-
+        pre_weights = [] if first_layer is None else [first_layer]
         first_layer = lab.concatenate(
             pre_weights
             + [
