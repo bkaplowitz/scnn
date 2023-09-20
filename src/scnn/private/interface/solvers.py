@@ -50,12 +50,9 @@ def build_prox_operator(
     Returns:
         A proximal operator for the regularizer.
     """
-    lam = 0.0
     op: prox.ProximalOperator
 
-    if regularizer is not None:
-        lam = regularizer.lam
-
+    lam = regularizer.lam if regularizer is not None else 0.0
     if isinstance(regularizer, L2):
         op = prox.L2(lam)
     elif isinstance(regularizer, L1):

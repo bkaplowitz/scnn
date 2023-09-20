@@ -226,8 +226,8 @@ class TestExpandedModelKernels(unittest.TestCase):
         for kernel_name in self.kernels.keys():
 
             H = self.builders[kernel_name]["hessian"](self.X, self.D)
-            H_flat = lab.concatenate([entry for entry in H], axis=1)
-            H_flat = lab.concatenate([entry for entry in H_flat], axis=1)
+            H_flat = lab.concatenate(list(H), axis=1)
+            H_flat = lab.concatenate(list(H_flat), axis=1)
 
             bd_H = self.builders[kernel_name]["bd_hessian"](self.X, self.D)
 

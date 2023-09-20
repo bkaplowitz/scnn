@@ -112,7 +112,7 @@ class TestGradientDescent(unittest.TestCase):
         )
 
         # with enough iterations, GD converges to the true model.
-        for i in range(10000):
+        for _ in range(10000):
             self.gd_update()
 
         opt = solve_ne(self.X, self.y)
@@ -140,7 +140,7 @@ class TestGradientDescent(unittest.TestCase):
         )
 
         # with enough iterates, the gd w/ line-search should converge to the true model.
-        for i in range(1000):
+        for _ in range(1000):
             self.ls_update()
 
         opt = solve_ne(self.X, self.y)

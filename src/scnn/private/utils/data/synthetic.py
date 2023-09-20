@@ -250,7 +250,4 @@ def sample_covariance_matrix(
     # sample eigenvalues so that lambda_1 / lambda_d = kappa.
     eigs = rng.uniform(low=1, high=kappa, size=d - 2)
     eigs = np.concatenate([np.array([kappa, 1]), eigs])
-    # compute covariance
-    Sigma = np.dot(Q.T, np.multiply(np.expand_dims(eigs, axis=1), Q))
-
-    return Sigma
+    return np.dot(Q.T, np.multiply(np.expand_dims(eigs, axis=1), Q))

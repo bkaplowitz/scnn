@@ -54,10 +54,7 @@ def build_internal_regularizer(
     """
     reg: Optional[InternalRegularizer] = None
 
-    lam = 0.0
-    if regularizer is not None:
-        lam = regularizer.lam
-
+    lam = regularizer.lam if regularizer is not None else 0.0
     if isinstance(regularizer, NeuronGL1):
         reg = GroupL1Regularizer(lam)
     elif isinstance(regularizer, FeatureGL1):
@@ -130,10 +127,7 @@ def extract_bias(weights: lab.Tensor, bias: bool = False) -> List[np.ndarray]:
     """
     weights = lab.to_np(weights)
 
-    if bias:
-        return [weights[..., 0:-1], weights[..., -1]]
-    else:
-        return [weights]
+    return [weights[..., 0:-1], weights[..., -1]] if bias else [weights]
 
 
 def extract_gates_bias(
@@ -143,10 +137,7 @@ def extract_gates_bias(
     G = lab.to_np(G)
     p = G.shape[-1]
 
-    if bias:
-        return (G[0:-1], G[-1])
-    else:
-        return (G, np.zeros(p))
+    return (G[:-1], G[-1]) if bias else (G, np.zeros(p))
 
 
 def update_public_model(model: Model, internal_model: InternalModel) -> Model:

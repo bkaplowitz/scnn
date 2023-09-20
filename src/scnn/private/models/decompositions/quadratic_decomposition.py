@@ -146,10 +146,7 @@ class QuadraticDecomposition(Model):
                 / self._scaling(y, scaling)
             )
 
-        if flatten:
-            return lab.ravel(grad)
-
-        return grad
+        return lab.ravel(grad) if flatten else grad
 
     def batch_X(
         self, batch_size: Optional[int], X: lab.Tensor

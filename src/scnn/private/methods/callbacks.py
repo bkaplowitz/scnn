@@ -48,9 +48,8 @@ class ObservedSignPatterns:
     def _check_and_store_pattern(self, pattern) -> bool:
         if pattern in self.observed_patterns:
             return False
-        else:
-            self.observed_patterns[pattern] = True
-            return True
+        self.observed_patterns[pattern] = True
+        return True
 
     def __call__(self, model: Model, X: lab.Tensor, y: lab.Tensor) -> Model:
 

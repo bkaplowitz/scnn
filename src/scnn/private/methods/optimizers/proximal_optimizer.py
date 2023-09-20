@@ -140,11 +140,7 @@ class ProximalLSOptimizer(LSOptimizer):
 
         grad = grad_fn(model.weights)
 
-        if self.f1 is None:
-            self.f0 = obj_fn(model.weights)
-        else:
-            self.f0 = self.f1
-
+        self.f0 = obj_fn(model.weights) if self.f1 is None else self.f1
         old_weights = model.weights
         model.weights, self.f1, self.step_size, exit_state = self.step_fn(
             model.weights,

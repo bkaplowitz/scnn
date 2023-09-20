@@ -67,7 +67,7 @@ class TestLinearRegression(unittest.TestCase):
         self.assertTrue(lab.allclose(grad, lab.zeros_like(grad)))
 
         # test the gradient against finite differences
-        for i in range(self.tries):
+        for _ in range(self.tries):
             v = self.rng.standard_normal(self.d, dtype=self.dtype)
 
             self.assertTrue(

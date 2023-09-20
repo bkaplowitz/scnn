@@ -21,7 +21,7 @@ def init_batch_size(
     :returns: the desired batch size.
     """
     # only floating point or integer numbers are permitted.
-    assert isinstance(batch_size, float) or isinstance(batch_size, int)
+    assert isinstance(batch_size, (float, int))
 
     if batch_size == -1:  # full batch
         return train_set[0].shape[0]

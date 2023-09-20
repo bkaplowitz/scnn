@@ -48,22 +48,20 @@ def format_recent_metrics(
     for metric_name in train_metrics:
         metric_str = (
             metric_str
-            + f"Train Set {metric_name}: {metric_dict['train_' + metric_name][-1]}, "
+            + f"Train Set {metric_name}: {metric_dict[f'train_{metric_name}'][-1]}, "
         )
 
     for metric_name in test_metrics:
         metric_str = (
             metric_str
-            + f"Test Set {metric_name}: {metric_dict['test_' + metric_name][-1]}, "
+            + f"Test Set {metric_name}: {metric_dict[f'test_{metric_name}'][-1]}, "
         )
 
     for metric_name in additional_metrics:
         if metric_name == "subproblem_metrics":
             continue
 
-        metric_str = (
-            metric_str + f"{metric_name}: {metric_dict[metric_name][-1]}, "
-        )
+        metric_str = f"{metric_str}{metric_name}: {metric_dict[metric_name][-1]}, "
 
     return metric_str
 
@@ -100,13 +98,13 @@ def init_metrics(
     train_metrics, test_metrics, additional_metrics = metrics
 
     for metric_name in train_metrics:
-        if "train_" + metric_name not in metric_dict:
-            metric_dict["train_" + metric_name] = []
+        if f"train_{metric_name}" not in metric_dict:
+            metric_dict[f"train_{metric_name}"] = []
 
     # test metrics
     for metric_name in test_metrics:
-        if "test_" + metric_name not in metric_dict:
-            metric_dict["test_" + metric_name] = []
+        if f"test_{metric_name}" not in metric_dict:
+            metric_dict[f"test_{metric_name}"] = []
 
     for metric_name in additional_metrics:
         if metric_name not in metric_dict:
@@ -150,7 +148,7 @@ def update_metrics(
         metric_dict = compute_metric(
             metric_name,
             metric_dict,
-            "train_" + metric_name,
+            f"train_{metric_name}",
             model,
             sp_exit_state,
             train_data,
@@ -165,7 +163,7 @@ def update_metrics(
         metric_dict = compute_metric(
             metric_name,
             metric_dict,
-            "test_" + metric_name,
+            f"test_{metric_name}",
             model,
             sp_exit_state,
             test_data,

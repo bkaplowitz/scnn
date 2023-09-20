@@ -130,7 +130,7 @@ class TestFeatureGroupL1Regularizer(unittest.TestCase):
 
         self.regularized_model.regularizer.lam = 100
         # test the gradient against finite differences when all weights are non-zero
-        for i in range(self.tries):
+        for _ in range(self.tries):
             v = (
                 self.rng.standard_normal(
                     (self.c * self.p * self.d), dtype=self.dtype

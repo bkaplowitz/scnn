@@ -111,9 +111,7 @@ def sample_dense_gates(
     Returns:
         G -  a :math:`d \\times \\text{n_samples}` matrix of gate vectors.
     """
-    G = rng.standard_normal((d, n_samples))
-
-    return G
+    return rng.standard_normal((d, n_samples))
 
 
 def sample_sparse_gates(

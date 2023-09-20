@@ -29,8 +29,7 @@ class OneVsAllModel(Model):
 
     @property
     def weights(self):
-        weights = lab.stack([model.weights for model in self.per_class_models])
-        return weights
+        return lab.stack([model.weights for model in self.per_class_models])
 
     def _forward(
         self,

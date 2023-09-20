@@ -56,7 +56,7 @@ class TestProximalGradientDescent(unittest.TestCase):
 
     def minimize_fn(self, lam):
         prox = L1(lam=lam)
-        for i in range(self.max_iters):
+        for _ in range(self.max_iters):
             grad = self.lr.grad(self.X, self.y)
             self.lr.weights = pgd.proximal_gradient_step(
                 self.lr.weights, grad, 1.0 / self.L, prox
@@ -66,7 +66,7 @@ class TestProximalGradientDescent(unittest.TestCase):
         prox = L1(lam=lam)
 
         step_size = self.init_step_size
-        for i in range(self.max_iters):
+        for _ in range(self.max_iters):
             # search proximal path.
             grad = self.grad_fn(self.lr.weights)
 

@@ -77,7 +77,7 @@ class TestConvexMLP(unittest.TestCase):
             # check forward operator
 
             # try an assortment of random vectors
-            for i in range(self.tries):
+            for _ in range(self.tries):
                 v = lab.tensor(
                     self.rng.standard_normal(
                         (self.c, self.d * self.P), dtype=self.dtype

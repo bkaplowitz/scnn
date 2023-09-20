@@ -119,13 +119,7 @@ class AL_MLP(ConvexMLP):
             self._i_multipliers(index_range), self.delta
         )
 
-        penalty = (
-            self.delta
-            * lab.sum(lab.smax(gap + scaled_multipliers, 0) ** 2)
-            / 2
-        )
-
-        return penalty
+        return self.delta * lab.sum(lab.smax(gap + scaled_multipliers, 0) ** 2) / 2
 
     def lagrange_penalty_grad(
         self,
@@ -163,10 +157,7 @@ class AL_MLP(ConvexMLP):
             )
         )
 
-        if flatten:
-            return lab.ravel(grad)
-
-        return grad
+        return lab.ravel(grad) if flatten else grad
 
     def _objective(
         self,
@@ -231,10 +222,7 @@ class AL_MLP(ConvexMLP):
                 X, w, D=D, index_range=index_range, scaling=scaling
             )
 
-        if flatten:
-            return lab.ravel(grad)
-
-        return grad
+        return lab.ravel(grad) if flatten else grad
 
     def lagrangian(
         self,
@@ -312,10 +300,7 @@ class AL_MLP(ConvexMLP):
         if self.regularizer is not None:
             grad += self.regularizer.grad(w, grad)
 
-        if flatten:
-            return lab.ravel(grad)
-
-        return grad
+        return lab.ravel(grad) if flatten else grad
 
     def i_constraint_gap(
         self,
@@ -338,11 +323,9 @@ class AL_MLP(ConvexMLP):
         :returns: the constraint gaps.
         """
         weights = self._weights(w).reshape(2, self.c, self.p, self.d)
-        gaps = -lab.einsum(
+        return -lab.einsum(
             "ij, lmkj, ik-> lmki", X, weights, self._orthant(index_range)
         )
-
-        return gaps
 
     def constraint_gaps(
         self,

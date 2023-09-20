@@ -53,10 +53,7 @@ def lstsq_iterative_solve(
     """
     assert isinstance(targets, np.ndarray)  # only support NumPy arrays.
 
-    damping = 0.0
-    if lam != 0.0:
-        damping = np.sqrt(lam)
-
+    damping = np.sqrt(lam) if lam != 0.0 else 0.0
     if preconditioner is not None:
         # compose the operators.
         linear_op = linear_op.dot(preconditioner)
@@ -69,18 +66,22 @@ def lstsq_iterative_solve(
             maxiter=max_iters,
             atol=tol,
             btol=tol,
-        )[0:3]
+        )[:3]
 
         success = istop != 7
     elif solver == LSQR:
-        w_opt, istop, itn, = lsqr(
+        (
+            w_opt,
+            istop,
+            itn,
+        ) = lsqr(
             A=linear_op,
             b=targets,
             damp=damping,
             iter_lim=max_iters,
             atol=tol,
             btol=tol,
-        )[0:3]
+        )[:3]
 
         success = istop != 7
     else:
@@ -131,19 +132,18 @@ def linear_iterative_solve(
     # flatten while solving the system.
     flat_targets = targets.reshape(-1)
 
-    if solver == CG:
-        w_opt, info = cg(
-            A=linear_op,
-            b=flat_targets,
-            maxiter=max_iters,
-            M=preconditioner,
-            tol=tol,
-            atol="legacy",
-        )
-        success = info == 0
-    else:
+    if solver != CG:
         raise ValueError(f"Iterative solver {solver} not recognized!")
 
+    w_opt, info = cg(
+        A=linear_op,
+        b=flat_targets,
+        maxiter=max_iters,
+        M=preconditioner,
+        tol=tol,
+        atol="legacy",
+    )
+    success = info == 0
     exit_status = {"success": success}
 
     # restore original shape.

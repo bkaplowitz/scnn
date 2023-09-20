@@ -113,11 +113,7 @@ class LinearSupportFinder(SupportFinder):
 
         support = lab.arange(d)[non_zeros].tolist()
 
-        if len(support) == 0:
-            # failure mode
-            return lab.arange(d).tolist()
-        else:
-            return support
+        return lab.arange(d).tolist() if len(support) == 0 else support
 
 
 class ForwardBackward(SupportFinder):
@@ -161,15 +157,11 @@ class ForwardBackward(SupportFinder):
         remaining_features = np.arange(d).tolist()
 
         # find best validation accuracy and extract support.
-        if self.forward:
-            active_features = []
-        else:
-            active_features = remaining_features
-
+        active_features = [] if self.forward else remaining_features
         best_support = None
         best_crit = None
 
-        for i in range(d):
+        for _ in range(d):
             next_best_crit: float = None
             next_features: List[int] = None
 

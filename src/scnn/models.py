@@ -273,16 +273,15 @@ class ConvexGatedReLU(GatedModel):
         """
         D = super().compute_activations(X)
 
-        if self.bias:
-            Z = (
-                np.einsum("ij, lkj->lik", X, self.parameters[0])
-                + self.parameters[1]
-            )
-
-            # TODO: need to check this computation.
-            return np.einsum("lik, ik->il", Z, D)
-        else:
+        if not self.bias:
             return np.einsum("ij, lkj, ik->il", X, self.parameters[0], D)
+        Z = (
+            np.einsum("ij, lkj->lik", X, self.parameters[0])
+            + self.parameters[1]
+        )
+
+        # TODO: need to check this computation.
+        return np.einsum("lik, ik->il", Z, D)
 
 
 class NonConvexGatedReLU(GatedModel):
@@ -449,15 +448,14 @@ class ConvexReLU(GatedModel):
         """
         if self.bias:
             assert len(parameters) == 4
-            assert parameters[0].shape == (self.c, self.p, self.d)
             assert parameters[2].shape == (self.c, self.p)
             assert parameters[3].shape == (self.c, self.p, self.d)
             assert parameters[4].shape == (self.c, self.p)
         else:
             assert len(parameters) == 2
-            assert parameters[0].shape == (self.c, self.p, self.d)
             assert parameters[1].shape == (self.c, self.p, self.d)
 
+        assert parameters[0].shape == (self.c, self.p, self.d)
         self.parameters = parameters
 
     def __call__(self, X: np.ndarray) -> np.ndarray:
@@ -553,14 +551,13 @@ class NonConvexReLU(Model):
         """
         if self.bias:
             assert len(parameters) == 3
-            assert parameters[0].shape == (self.p, self.d)
             assert parameters[1].shape == (self.p,)
             assert parameters[2].shape == (self.c, self.p)
         else:
             assert len(parameters) == 2
-            assert parameters[0].shape == (self.p, self.d)
             assert parameters[1].shape == (self.c, self.p)
 
+        assert parameters[0].shape == (self.p, self.d)
         self.parameters = parameters
 
     def __call__(self, X: np.ndarray) -> np.ndarray:

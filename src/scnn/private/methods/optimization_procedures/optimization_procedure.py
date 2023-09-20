@@ -110,7 +110,7 @@ class OptimizationProcedure:
         )
 
         logger.info(
-            "Pre-Training Metrics: " + format_recent_metrics(metrics_log, metrics)
+            f"Pre-Training Metrics: {format_recent_metrics(metrics_log, metrics)}"
         )
 
         start_time = self._get_start_time(start_time)
@@ -136,7 +136,7 @@ class OptimizationProcedure:
         )
 
         logger.info(
-            "Post-Training Metrics: " + format_recent_metrics(metrics_log, metrics)
+            f"Post-Training Metrics: {format_recent_metrics(metrics_log, metrics)}"
         )
 
         return exit_status, model, metrics_log

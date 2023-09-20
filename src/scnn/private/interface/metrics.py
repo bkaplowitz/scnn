@@ -29,40 +29,36 @@ def build_metrics_tuple(
         if not value:
             continue
 
-        if key == "objective":
-            train_metrics.append("objective")
-        elif key == "grad_norm":
-            train_metrics.append("grad_norm")
-        elif key == "time":
-            continue
-        elif key == "model_loss":
-            train_metrics.append("base_objective")
-        elif key == "constraint_gaps":
-            train_metrics.append("constraint_gaps")
-        elif key == "lagrangian_grad":
-            train_metrics.append("lagrangian_grad")
-        # use convex model for training (same as non-convex)
-        elif key == "train_accuracy":
-            train_metrics.append("accuracy")
-        # use convex model for training (same as non-convex)
-        elif key == "train_mse":
-            train_metrics.append("squared_error")
-        # use non-convex model for testing
-        elif key == "test_accuracy":
-            test_metrics.append("nc_accuracy")
-        # use non-convex model for testing
-        elif key == "test_mse":
-            test_metrics.append("nc_squared_error")
+        if key == "active_features":
+            additional_metrics.append("active_features")
         elif key == "active_neurons":
             additional_metrics.append("active_neurons")
-        elif key == "neuron_sparsity":
-            additional_metrics.append("group_sparsity")
-        elif key == "active_features":
-            additional_metrics.append("active_features")
-        elif key == "feature_sparsity":
-            additional_metrics.append("feature_sparsity")
         elif key == "active_weights":
             additional_metrics.append("active_weights")
+        elif key == "constraint_gaps":
+            train_metrics.append("constraint_gaps")
+        elif key == "feature_sparsity":
+            additional_metrics.append("feature_sparsity")
+        elif key == "grad_norm":
+            train_metrics.append("grad_norm")
+        elif key == "lagrangian_grad":
+            train_metrics.append("lagrangian_grad")
+        elif key == "model_loss":
+            train_metrics.append("base_objective")
+        elif key == "neuron_sparsity":
+            additional_metrics.append("group_sparsity")
+        elif key == "objective":
+            train_metrics.append("objective")
+        elif key == "test_accuracy":
+            test_metrics.append("nc_accuracy")
+        elif key == "test_mse":
+            test_metrics.append("nc_squared_error")
+        elif key == "time":
+            continue
+        elif key == "train_accuracy":
+            train_metrics.append("accuracy")
+        elif key == "train_mse":
+            train_metrics.append("squared_error")
         elif key == "weight_sparsity":
             additional_metrics.append("weight_sparsity")
 

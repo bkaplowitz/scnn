@@ -101,7 +101,7 @@ class TestL2Regularizer(unittest.TestCase):
         )
 
         # test the gradient against finite differences
-        for i in range(self.tries):
+        for _ in range(self.tries):
             v = self.rng.standard_normal(self.d, dtype=self.dtype)
 
             self.assertTrue(

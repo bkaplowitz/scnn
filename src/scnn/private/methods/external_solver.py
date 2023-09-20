@@ -59,15 +59,9 @@ class LinearSolver(ExternalSolver):
                 "LinearSolver only supports scalar output problems at the moment."
             )
 
-        lam: float = 0.0
-        if model.regularizer is not None:
-            lam = model.regularizer.lam * len(y)
-
+        lam = model.regularizer.lam * len(y) if model.regularizer is not None else 0.0
         M = None
-        D = None
-        if isinstance(model, ConvexMLP):
-            D = model.D
-
+        D = model.D if isinstance(model, ConvexMLP) else None
         if self.preconditioner is not None:
             M = preconditioners.get_preconditioner(self.preconditioner, X, D)
 

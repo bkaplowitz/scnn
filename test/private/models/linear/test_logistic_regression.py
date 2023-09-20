@@ -50,7 +50,7 @@ class TestLogisticRegression(unittest.TestCase):
         """Check that the gradient is computed properly."""
 
         # check the gradient against finite differences
-        for i in range(self.tries):
+        for _ in range(self.tries):
             v = self.rng.standard_normal(self.d, dtype=self.dtype)
 
             self.assertTrue(

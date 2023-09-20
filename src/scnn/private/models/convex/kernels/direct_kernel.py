@@ -59,9 +59,9 @@ def hessian_mvp(
         hessian = expanded_hessian(X, D)
         # flatten the Hessian.
 
-        hessian = [entry for entry in hessian]
+        hessian = list(hessian)
         hessian = lab.concatenate(hessian, axis=1)
-        hessian = [entry for entry in hessian]
+        hessian = list(hessian)
         hessian = lab.concatenate(hessian, axis=1)
 
     w = v.reshape(-1, X.shape[1]*D.shape[1])
@@ -79,11 +79,7 @@ def bd_hessian_mvp(
         bd_hessian = expanded_bd_hessian(X, D)
 
     w = v.reshape(-1, D.shape[1], X.shape[1])
-    res = []
-
-    for i, block in enumerate(bd_hessian):
-        res.append((block @ w[:, i].T).T)
-
+    res = [(block @ w[:, i].T).T for i, block in enumerate(bd_hessian)]
     return lab.transpose(lab.stack(res), 0, 1).reshape(*v.shape)
 
 

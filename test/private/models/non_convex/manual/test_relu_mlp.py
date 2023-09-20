@@ -53,7 +53,7 @@ class TestReLUMLP(unittest.TestCase):
     def test_grad(self):
         """Check that the gradient is computed properly."""
         # test the gradient against finite differences
-        for i in range(self.tries):
+        for _ in range(self.tries):
             v = self.rng.standard_normal(
                 self.c * self.p + self.p * self.d, dtype=self.dtype
             )
